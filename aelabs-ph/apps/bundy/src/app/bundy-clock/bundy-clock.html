@@ -1,0 +1,68 @@
+    <div class="bundy-container" style="text-align: center; height: 40rem; width: 30rem; background-color: white;margin: auto; margin-top: 5rem;">
+        <div style="padding: 1rem 2rem;">
+            <div class="time" style="font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; font-size: 4rem;"> {{ formattedTime$ | async }}</div>
+            <div class="datetime" style="font-family: 'Open Sans', 'Segoe UI', Roboto, sans-serif; font-size: 1.5rem;"> {{ formattedDate$ | async }}</div>
+        </div>
+        
+        <div class="cam" style="width: 25rem; height: 20rem; margin: auto;">
+             <video 
+                #videoElement 
+                autoplay 
+                playsinline 
+                style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </video>
+            <canvas #canvasElement style="display: none;"></canvas>
+        </div>
+
+        <div class="location" style="font-family: 'Poppins', 'Helvetica Neue', sans-serif;padding: 0 1rem;">
+            <p>{{ location$ | async }}</p>
+        </div>
+
+        <div class="input-wrapper">
+            <input 
+                #employeeInput
+                type="text" 
+                class="employee-input"
+                placeholder="Enter Employee ID"
+                autocomplete="off"
+                (keydown)="onInputKeydown($event)"
+            />
+        </div>
+
+        @if (isKioskMode) {
+            <div class="attendance-buttons">
+                @if (isTimeIn) {
+                    <button (click)="punch(isTimeIn)" class="btn btn-time-in">
+                        ✓ Time In
+                    </button>
+                } @else {
+                    <button (click)="punch(isTimeIn)" class="btn btn-time-out">
+                        ✗ Time Out
+                    </button>
+                }
+            </div>
+            <div>Press [ - ] to switch attendance mode</div>    
+        } @else {
+             <div style="margin-top: 1rem; color: green; font-weight: bold;">
+                <div class="attendance-buttons">
+                <button (click)="timeIn()" class="btn btn-time-in">
+                    ✓ Time In
+                </button>
+                <button (click)="timeOut()" class="btn btn-time-out">
+                    ✗ Time Out
+                </button>
+            </div>
+            </div>
+        }
+        
+        <!-- <div class="buttons">
+            <button (click)="captureImage()" style="padding: 10px 20px; margin-right: 10px; cursor: pointer;">
+                📷 Capture Image
+            </button>
+            @if (capturedImage$ | async) {
+                <button (click)="downloadImage()" style="padding: 10px 20px; cursor: pointer;">
+                    ⬇️ Download
+                </button>
+            }
+        </div> -->
+    
